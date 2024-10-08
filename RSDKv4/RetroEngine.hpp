@@ -320,7 +320,6 @@ public:
 
     int frameSkipSetting = 0;
     int frameSkipTimer   = 0;
-    int discordAppId = 0;
 
 #if !RETRO_USE_ORIGINAL_CODE
     // Ported from RSDKv5

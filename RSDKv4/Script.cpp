@@ -429,9 +429,14 @@ const FunctionInfo functions[] = {
     FunctionInfo("BoxCollisionTest", 11),
     FunctionInfo("CreateTempObject", 4),
 
-    // Discord RPC Stuff
-    FunctionInfo("InitializeDiscordRPC", 1),
-    FunctionInfo("UpdateDiscordRPC", 1),
+    // Discord RPC Updating
+    FunctionInfo("SetDiscordAppID", 1),
+    FunctionInfo("DiscordRPCState", 1),
+    FunctionInfo("DiscordRPCDetails", 1),
+    FunctionInfo("DiscordRPCLargeImageKey", 1),
+    FunctionInfo("DiscordRPCSmallImageKey", 1),
+    FunctionInfo("DiscordRPCLargeImageText", 1),
+    FunctionInfo("DiscordRPCSmallImageText", 1),
     FunctionInfo("UpdateRPCTimer", 1),
     FunctionInfo("UpdateRPCParty", 2),
 
@@ -984,7 +989,12 @@ enum ScrFunc {
     FUNC_BOXCOLLISIONTEST,
     FUNC_CREATETEMPOBJECT,
     FUNC_DISCORDINIT,
-    FUNC_SETDISCORDPRESENCEINFO,
+    FUNC_SETDISCORDSTATE,
+    FUNC_SETDISCORDDETAILS,
+    FUNC_SETDISCORDLARGEIMAGE,
+    FUNC_SETDISCORDSMALLIMAGE,
+    FUNC_SETDISCORDLARGEIMAGETEXT,
+    FUNC_SETDISCORDSMALLIMAGETEXT,
     FUNC_UPDATEDICKTIMER,
     FUNC_UPDATEDICKPARTY,
     FUNC_PROCESSOBJECTMOVEMENT,
@@ -3838,7 +3848,6 @@ void ProcessScript(int scriptCodePtr, int jumpTablePtr, byte scriptEvent)
                     case VAR_ENGINEBGMVOLUME: scriptEng.operands[i] = bgmVolume; break;
                     case VAR_ENGINETRIALMODE: scriptEng.operands[i] = Engine.trialMode; break;
                     case VAR_ENGINEDEVICETYPE: scriptEng.operands[i] = RETRO_DEVICETYPE; break;
-                    case VAR_ENGINEDISCORDAPPID: scriptEng.operands[i] = Engine.discordAppId; break;
                 }
             }
             else if (opcodeType == SCRIPTVAR_INTCONST) { // int constant
@@ -4677,11 +4686,31 @@ void ProcessScript(int scriptCodePtr, int jumpTablePtr, byte scriptEvent)
             }
             case FUNC_DISCORDINIT:
                 opcodeSize = 0;
-                InitializeDiscordRPC(scriptText);
+                SetDiscordAppID(scriptText);
                 break;
-            case FUNC_SETDISCORDPRESENCEINFO:
+            case FUNC_SETDISCORDSTATE:
                 opcodeSize = 0;
-                UpdateDiscordRPC(scriptText);
+                DiscordRPCState(scriptText);
+                break;
+            case FUNC_SETDISCORDDETAILS:
+                opcodeSize = 0;
+                DiscordRPCDetails(scriptText);
+                break;
+            case FUNC_SETDISCORDLARGEIMAGE:
+                opcodeSize = 0;
+                DiscordRPCLargeImageKey(scriptText);
+                break;
+            case FUNC_SETDISCORDSMALLIMAGE:
+                opcodeSize = 0;
+                DiscordRPCSmallImageKey(scriptText);
+                break;
+            case FUNC_SETDISCORDLARGEIMAGETEXT:
+                opcodeSize = 0;
+                DiscordRPCLargeImageText(scriptText);
+                break;
+            case FUNC_SETDISCORDSMALLIMAGETEXT:
+                opcodeSize = 0;
+                DiscordRPCSmallImageText(scriptText);
                 break;
             case FUNC_UPDATEDICKTIMER:
                 opcodeSize = 0;

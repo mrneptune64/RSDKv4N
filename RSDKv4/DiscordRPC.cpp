@@ -5,110 +5,123 @@
 #include <discord_rpc.h>
 #include <discord_register.h>
 
+DiscordRichPresence discordPresence;
+
+void LogDiscordPresence()
+{
+    std::stringstream ss;
+
+    ss << "DiscordRichPresence Data:\n";
+    ss << "State: " << (discordPresence.state ? discordPresence.state : "null") << "\n";
+    ss << "Details: " << (discordPresence.details ? discordPresence.details : "null") << "\n";
+    ss << "Start Timestamp: " << discordPresence.startTimestamp << "\n";
+    ss << "End Timestamp: " << discordPresence.endTimestamp << "\n";
+    ss << "Large Image Key: " << (discordPresence.largeImageKey ? discordPresence.largeImageKey : "null") << "\n";
+    ss << "Large Image Text: " << (discordPresence.largeImageText ? discordPresence.largeImageText : "null") << "\n";
+    ss << "Small Image Key: " << (discordPresence.smallImageKey ? discordPresence.smallImageKey : "null") << "\n";
+    ss << "Small Image Text: " << (discordPresence.smallImageText ? discordPresence.smallImageText : "null") << "\n";
+    ss << "Party Size: " << discordPresence.partySize << "\n";
+    ss << "Party Max: " << discordPresence.partyMax << "\n";
+    ss << "Join Secret: " << (discordPresence.joinSecret ? discordPresence.joinSecret : "null") << "\n";
+    ss << "Spectate Secret: " << (discordPresence.spectateSecret ? discordPresence.spectateSecret : "null") << "\n";
+
+    printLog(ss.str().c_str());
+}
+
 void handleDiscordReady(const struct DiscordUser* request) {
-    printLog("fuck you, ready", request->username, request->userId);
+    printLog("ready", request->username, request->userId);
 }
 
 void handleDiscordDisconnected(int errorCode, const char* message) {
-    printLog("fuck you, disconnected", errorCode, message);
+    printLog("disconnected", errorCode, message);
 }
 
 void handleDiscordError(int errorCode, const char* message) {
-    printLog("fuck you, error", errorCode, message);
+    printLog("error", errorCode, message);
 }
 
 void handleDiscordJoinGame(const char* joinSecret) {
-    printLog("fuck you, joined", joinSecret);
+    printLog("joined", joinSecret);
 }
 
 void handleDiscordSpectateGame(const char* spectateSecret) {
-    printLog("fuck you, spectating", spectateSecret);
+    printLog("spectating", spectateSecret);
 }
 
 void handleDiscordJoinRequest(const struct DiscordUser* request) {
-    printLog("fuck you, user request join", request->username, request->userId);
+    printLog("user request join", request->username, request->userId);
 }
 
-void InitializeDiscordRPC(const char* data)
+void SetDiscordAppID(const char* data)
 {
-    // Split the data string
-    std::string dataStr(data);
-    std::stringstream ss(dataStr);
-    std::string item;
-    std::string parts[7]; // to store the 7 parts
-
-    int i = 0;
-    while (std::getline(ss, item, ',')) {
-        parts[i] = item;
-        i++;
-        if (i >= 7) // break the loop if all 7 parts have been obtained
-            break;
-    }
-
-    DiscordRichPresence discordPresence;
     DiscordEventHandlers handlers;
     memset(&handlers, 0, sizeof(handlers));
+
     handlers.ready = handleDiscordReady;
     handlers.errored = handleDiscordError;
     handlers.disconnected = handleDiscordDisconnected;
-    handlers.joinGame = handleDiscordJoinGame;
-    handlers.spectateGame = handleDiscordSpectateGame;
-    handlers.joinRequest = handleDiscordJoinRequest;
 
-    // Discord_Initialize(const char* applicationId, DiscordEventHandlers* handlers, int autoRegister, const char* optionalSteamId)
-    Discord_Initialize(parts[6].c_str(), &handlers, 1, "1234");
-    memset(&discordPresence, 0, sizeof(discordPresence));
+    Discord_Initialize(data, &handlers, 0, NULL);
 
-    discordPresence.largeImageKey = parts[0].c_str();
-    discordPresence.smallImageKey = parts[1].c_str();
-    discordPresence.largeImageText = parts[2].c_str();
-    discordPresence.smallImageText = parts[3].c_str();
-    discordPresence.details = parts[4].c_str();
-    discordPresence.state = parts[5].c_str();
+    discordPresence.state = "";
+    discordPresence.details = "";
+    discordPresence.largeImageKey = "";
+    discordPresence.smallImageKey = "";
+
     Discord_UpdatePresence(&discordPresence);
 }
 
-void UpdateDiscordRPC(const char* data)
+void DiscordRPCState(const char* data)
 {
-    DiscordRichPresence discordPresence;
-
-    // Split the data string
-    std::string dataStr(data);
-    std::stringstream ss(dataStr);
-    std::string item;
-    std::string parts[6]; // to store the 7 parts
-
-    int i = 0;
-    while (std::getline(ss, item, ',')) {
-        parts[i] = item;
-        i++;
-        if (i >= 6) // break the loop if all 7 parts have been obtained
-            break;
-    }
-    memset(&discordPresence, 0, sizeof(discordPresence));
-
-    discordPresence.largeImageKey = parts[0].c_str();
-    discordPresence.smallImageKey = parts[1].c_str();
-    discordPresence.largeImageText = parts[2].c_str();
-    discordPresence.smallImageText = parts[3].c_str();
-    discordPresence.details = parts[4].c_str();
-    discordPresence.state = parts[5].c_str();
+    discordPresence.state = strdup(data);
     Discord_UpdatePresence(&discordPresence);
+
+}
+
+void DiscordRPCDetails(const char* data)
+{
+    discordPresence.details = strdup(data);
+    Discord_UpdatePresence(&discordPresence);
+
+}
+
+void DiscordRPCSmallImageKey(const char* data)
+{
+    discordPresence.smallImageKey = strdup(data);
+    Discord_UpdatePresence(&discordPresence);
+
+}
+
+void DiscordRPCLargeImageKey(const char* data)
+{
+    discordPresence.largeImageKey = strdup(data);
+    Discord_UpdatePresence(&discordPresence);
+
+}
+
+void DiscordRPCSmallImageText(const char* data)
+{
+    discordPresence.smallImageText = strdup(data);
+    Discord_UpdatePresence(&discordPresence);
+
+}
+
+void DiscordRPCLargeImageText(const char* data)
+{
+    discordPresence.largeImageText = strdup(data);
+    Discord_UpdatePresence(&discordPresence);
+
 }
 
 void UpdateRPCTimer(int time)
 {
-    DiscordRichPresence discordPresence;
     int64_t trueTimer = static_cast<int64_t>(time);
-    memset(&discordPresence, 0, sizeof(discordPresence));
     discordPresence.startTimestamp = trueTimer;
     Discord_UpdatePresence(&discordPresence);
 }
 
 void UpdateRPCParty(int size, int max)
 {
-    DiscordRichPresence discordPresence;
-    memset(&discordPresence, 0, sizeof(discordPresence));
     discordPresence.partySize = size;
     discordPresence.partyMax = max;
     Discord_UpdatePresence(&discordPresence);
