@@ -1,30 +1,15 @@
 ![](header.png?raw=true)
-# **SUPPORT THE OFFICIAL RELEASE OF SONIC 1 & SONIC 2**
 + Without assets from the official releases this decompilation will not run.
-+ Video tutorial on how to find your legally obtained Data.rsdk file: https://www.youtube.com/watch?v=gzIfRW91IxE
 
-+ You can get the official release of Sonic 1 & Sonic 2 from:
-  * [Sonic 1 (iOS, Via the App Store)](https://apps.apple.com/au/app/sonic-the-hedgehog-classic/id316050001)
-  * [Sonic 2 (iOS, Via the App Store)](https://apps.apple.com/au/app/sonic-the-hedgehog-2-classic/id347415188)
-  * [Sonic 1 (Android, Via Google Play)](https://play.google.com/store/apps/details?id=com.sega.sonic1px&hl=en_AU&gl=US)
-  * [Sonic 2 (Android, Via Google Play)](https://play.google.com/store/apps/details?id=com.sega.sonic2.runner&hl=en_AU&gl=US)
-  * [Sonic 1 (Android, Via Amazon)](https://www.amazon.com.au/Sega-of-America-Sonic-Hedgehog/dp/B00D74DVKM)
-  * [Sonic 2 (Android, Via Amazon)](https://www.amazon.com.au/Sega-of-America-Sonic-Hedgehog/dp/B00HAPRVWS)
++ This decompilation was designed with Sonic 1 Forever in mind. While it can run stock Sonic 1 and Sonic 2, it was intended for use with the Team Forever mods.
 
-Even if your platform isn't supported by the official releases, you **must** buy it for the assets (you don't need to run the official release, you just need the game assets)
-
-If you want to transfer your save from the official mobile versions, the **Android pre-forever** file path is `Android/data/com.sega.sonic1 or 2/SGame.bin` (other versions may have different file paths). Copy that file to the `SData.bin` in the EXE folder.
-
-# Additional Tweaks
-* Added a built in script compiler. Similar to the one found in RSDKv3, but tweaked up to match the new syntax for the scripts used in RSDKv4.
-* Added a built in mod loader and API allowing to easily create and play mods with features such as save file redirection, custom achievements and XML GameConfig/StageConfig data.
-* Custom menu and networking system for Sonic 2 multiplayer, allowing anyone to host and join servers and play 2P VS.
-* There is now a `settings.ini` file that the game uses to load all settings, similar to Sonic Mania.
-* Dev menu can now be accessed from anywhere by pressing the `ESC` key if enabled in the config.
-* The `F12` pause, `F11` step over & fast forward debug features from Sonic Mania have all been ported and are enabled if `devMenu` is enabled in the config.
-* If `devMenu` is enabled in the config, pressing `F9` will visualize hitboxes, and `F10` will activate a palette overlay that shows the game's 8 internal palettes in real time.
-* Added the idle screen dimming feature from Sonic Mania Plus, as well as allowing the user to disable it or set how long it takes for the screen to dim.
-* DISCORD RPC SUPPORT
+# New Stuff:
+* Discord RPC Support
+	### **THIS USES THE DEPRECATED DISCORD GAME SDK. DOCUMENTATION MAY NOT BE AVAILABLE.**
+	* Documentation about the new instructions included that manage the Discord RPC implementation can be provided upon request. See Contact.
+			
+## How to create a Discord application:
+[Just go here.](https://discord.com/developers/)
 
 # How to build:
 ## Windows:
