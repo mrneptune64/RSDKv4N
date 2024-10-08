@@ -52,4 +52,4 @@ if you've cloned this repo and ported it to a platform not on the list or made s
 * basically everyone who worked on the original RSDKv4 decomp and Team Forever
 
 # Contact:
-mrneptune64 on disdcord
+mrneptune64 on discord
